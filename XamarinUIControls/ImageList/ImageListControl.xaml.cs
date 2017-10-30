@@ -26,36 +26,114 @@ namespace XamarinUIControls
             }
         }
 
-        private static void HandleImagesPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var imageInfoControl = (ImageListControl)bindable;
-            var images = (ImageList)newValue;
-            if (imageInfoControl != null && images != null)
-            {
-                imageInfoControl.CountGrid.Children.Clear();
-                imageInfoControl.CountGrid.ColumnDefinitions.Clear();
-                imageInfoControl.CountGrid.ColumnDefinitions = new ColumnDefinitionCollection();
-                for (int i = 0; i < images.Count; i++)
-                {
-                    imageInfoControl.CountGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
-                }
-
-                imageInfoControl.CountGrid.Children.AddHorizontal(new Button() { BackgroundColor = Color.White });
-                for (int i = 1; i < images.Count; i++)
-                {
-                    imageInfoControl.CountGrid.Children.AddHorizontal(new Button() { BackgroundColor = Color.WhiteSmoke });
-                }
-
-                var defaultImage = images.FirstOrDefault();
-                imageInfoControl.ImageControl.Source = new UriImageSource() { Uri = new Uri(defaultImage.PhotoUrl), CachingEnabled = true };
-                imageInfoControl.TitleLabel.Text = defaultImage.Title;
-                imageInfoControl.SubTitleLabel.Text = defaultImage.SubTitle;
-            }
-        }
+        private int currentImageIndex { get; set; }
+        private double startX { get; set; }
 
         public ImageListControl()
         {
             this.InitializeComponent();
+        }
+
+        private void TapGesture_Tapped(object sender, EventArgs e)
+        {
+            // Navigation.PushModalAsync(new ImagePage(this.Images[currentImageIndex])).RunSynchronously();
+        }
+
+        private void PanGesture_PanUpdated(object sender, PanUpdatedEventArgs e)
+        {
+            switch (e.StatusType)
+            {
+                case GestureStatus.Started:
+                case GestureStatus.Running:
+                    this.startX = e.TotalX;
+                    break;
+                case GestureStatus.Completed:
+                    if (this.startX <= -50)
+                    {
+                        ShowPrevious(this);
+                    }
+                    else if (this.startX >= 50)
+                    {
+                        ShowNext(this);
+                    }
+                    break;
+            }
+        }
+
+        private static void HandleImagesPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var imageListControl = (ImageListControl)bindable;
+            var imageList = (ImageList)newValue;
+            if (imageListControl != null && imageList != null)
+            {
+                imageListControl.CountGrid.Children.Clear();
+                imageListControl.CountGrid.RowDefinitions.Clear();
+                imageListControl.CountGrid.ColumnDefinitions.Clear();
+                imageListControl.CountGrid.ColumnDefinitions = new ColumnDefinitionCollection();
+                for (int index = 0; index < imageList.Count; index = index + 1)
+                {
+                    imageListControl.CountGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
+
+                    var button = new Button() { BackgroundColor = Color.Red };
+                    var buttonId = index;
+                    button.Clicked += (sender, e) =>
+                    {
+                        ShowImage(imageListControl, buttonId);
+                    };
+
+                    imageListControl.CountGrid.Children.Add(button);
+                    Grid.SetColumn(button, index);
+                }
+
+                imageListControl.currentImageIndex = 0;
+                ShowImage(imageListControl, 0);
+            }
+        }
+
+        private static void ShowImage(ImageListControl imageListControl, int imageIndex)
+        {
+            var newImage = imageListControl.Images[imageIndex];
+            imageListControl.ImageControl.Source = new UriImageSource()
+            {
+                Uri = new Uri(newImage.PhotoUrl),
+                CachingEnabled = true,
+                CacheValidity = TimeSpan.FromMinutes(5)
+            };
+
+            imageListControl.TitleLabel.Text = newImage.Title;
+            imageListControl.SubTitleLabel.Text = newImage.SubTitle;
+            if (string.IsNullOrWhiteSpace(newImage.Title) && string.IsNullOrWhiteSpace(newImage.SubTitle))
+            {
+                imageListControl.TitleBox.IsVisible = false;
+            }
+            else
+            {
+                imageListControl.TitleBox.IsVisible = true;
+            }
+
+            imageListControl.CountGrid.Children.ElementAt(imageListControl.currentImageIndex).BackgroundColor = Color.Red;
+            imageListControl.CountGrid.Children.ElementAt(imageIndex).BackgroundColor = Color.Green;
+            imageListControl.currentImageIndex = imageIndex;
+        }
+
+        private static void ShowNext(ImageListControl imageListControl)
+        {
+            if (imageListControl.currentImageIndex >= imageListControl.Images.Count - 1)
+            {
+                return;
+            }
+
+            ShowImage(imageListControl, imageListControl.currentImageIndex + 1);
+        }
+
+        private static void ShowPrevious(ImageListControl imageListControl)
+        {
+            if (imageListControl.currentImageIndex <= 0)
+            {
+                return;
+            }
+
+            ShowImage(imageListControl, imageListControl.currentImageIndex - 1);
         }
     }
 }

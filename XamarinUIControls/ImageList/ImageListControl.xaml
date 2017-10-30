@@ -1,20 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinUIControls.ImageListControl">
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      x:Class="XamarinUIControls.ImageListControl"
+      RowSpacing="0">
     <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
+        <RowDefinition Height="200" />
+        <RowDefinition Height="20" />
+        <RowDefinition Height="20" />
+        <RowDefinition Height="10" />
     </Grid.RowDefinitions>
-    <Image x:Name="ImageControl" Grid.Row="0" Grid.RowSpan="3" HorizontalOptions="FillAndExpand" Aspect="AspectFit" />
-    <BoxView Grid.Row="1" Grid.RowSpan="2" BackgroundColor="Black" Opacity="0.2" HorizontalOptions="FillAndExpand" />
+    <Grid.GestureRecognizers>
+        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="TapGesture_Tapped" />
+        <PanGestureRecognizer PanUpdated="PanGesture_PanUpdated" />
+    </Grid.GestureRecognizers>
+    <Image x:Name="ImageControl" Grid.Row="0" Grid.RowSpan="3" HorizontalOptions="Fill" Aspect="AspectFit"/>
+    <BoxView x:Name="TitleBox" Grid.Row="1" Grid.RowSpan="2" BackgroundColor="Black" Opacity="0.4" HorizontalOptions="FillAndExpand" />
     <StackLayout Grid.Row="1" Padding="5, 0,0,0">
-        <Label x:Name="TitleLabel" TextColor="White" />
+        <Label x:Name="TitleLabel" TextColor="White" FontSize="Small" />
     </StackLayout>
     <StackLayout Grid.Row="2" Padding="5,0,0,0">
-        <Label x:Name="SubTitleLabel" TextColor="White" />
+        <Label x:Name="SubTitleLabel" TextColor="White" FontSize="Micro" />
     </StackLayout>
-    <Grid x:Name="CountGrid" Grid.Row="3" HorizontalOptions="FillAndExpand" />
+    <Grid x:Name="CountGrid" Grid.Row="3" HorizontalOptions="FillAndExpand" ColumnSpacing="2" Padding="2" BackgroundColor="Black" Opacity="0.4" />
 </Grid>
