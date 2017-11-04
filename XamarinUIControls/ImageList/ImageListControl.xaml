@@ -16,10 +16,10 @@
     <Image x:Name="ImageControl" Grid.Row="0" Grid.RowSpan="3" HorizontalOptions="Fill" Aspect="AspectFit" />
     <BoxView x:Name="TitleBox" Grid.Row="1" Grid.RowSpan="2" BackgroundColor="Black" Opacity="0.4" HorizontalOptions="FillAndExpand" />
     <StackLayout Grid.Row="1" Padding="5,0,0,0">
-        <Label x:Name="TitleLabel" TextColor="White" FontSize="Small" />
+        <Label x:Name="TitleLabel" TextColor="White" FontSize="Small" LineBreakMode="NoWrap" />
     </StackLayout>
     <StackLayout Grid.Row="2" Padding="5,0,0,0">
-        <Label x:Name="SubTitleLabel" TextColor="White" FontSize="Micro" />
+        <Label x:Name="SubTitleLabel" TextColor="White" FontSize="Micro" LineBreakMode="NoWrap" />
     </StackLayout>
     <Grid x:Name="CountGrid" Grid.Row="3" HorizontalOptions="FillAndExpand" ColumnSpacing="2" Padding="2" BackgroundColor="Black" Opacity="0.4" />
 </Grid>
