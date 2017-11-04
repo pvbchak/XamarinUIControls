@@ -44,15 +44,17 @@ namespace XamarinUIControls
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
+                    this.startX = 0;
+                    break;
                 case GestureStatus.Running:
                     this.startX = e.TotalX;
                     break;
                 case GestureStatus.Completed:
-                    if (this.startX <= -50)
+                    if (this.startX < 0)
                     {
                         ShowPrevious(this);
                     }
-                    else if (this.startX >= 50)
+                    else if (this.startX > 0)
                     {
                         ShowNext(this);
                     }
@@ -74,7 +76,7 @@ namespace XamarinUIControls
                 {
                     imageListControl.CountGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
 
-                    var button = new Button() { BackgroundColor = Color.Red };
+                    var button = new Button() { BackgroundColor = Color.Gray };
                     var buttonId = index;
                     button.Clicked += (sender, e) =>
                     {
@@ -84,6 +86,8 @@ namespace XamarinUIControls
                     imageListControl.CountGrid.Children.Add(button);
                     Grid.SetColumn(button, index);
                 }
+
+                imageListControl.CountGrid.IsVisible = (imageList.Count > 1);
 
                 imageListControl.currentImageIndex = 0;
                 ShowImage(imageListControl, 0);
@@ -111,8 +115,8 @@ namespace XamarinUIControls
                 imageListControl.TitleBox.IsVisible = true;
             }
 
-            imageListControl.CountGrid.Children.ElementAt(imageListControl.currentImageIndex).BackgroundColor = Color.Red;
-            imageListControl.CountGrid.Children.ElementAt(imageIndex).BackgroundColor = Color.Green;
+            imageListControl.CountGrid.Children.ElementAt(imageListControl.currentImageIndex).BackgroundColor = Color.Gray;
+            imageListControl.CountGrid.Children.ElementAt(imageIndex).BackgroundColor = Color.White;
             imageListControl.currentImageIndex = imageIndex;
         }
 

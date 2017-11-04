@@ -13,9 +13,9 @@
         <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="TapGesture_Tapped" />
         <PanGestureRecognizer PanUpdated="PanGesture_PanUpdated" />
     </Grid.GestureRecognizers>
-    <Image x:Name="ImageControl" Grid.Row="0" Grid.RowSpan="3" HorizontalOptions="Fill" Aspect="AspectFit"/>
+    <Image x:Name="ImageControl" Grid.Row="0" Grid.RowSpan="3" HorizontalOptions="Fill" Aspect="AspectFit" />
     <BoxView x:Name="TitleBox" Grid.Row="1" Grid.RowSpan="2" BackgroundColor="Black" Opacity="0.4" HorizontalOptions="FillAndExpand" />
-    <StackLayout Grid.Row="1" Padding="5, 0,0,0">
+    <StackLayout Grid.Row="1" Padding="5,0,0,0">
         <Label x:Name="TitleLabel" TextColor="White" FontSize="Small" />
     </StackLayout>
     <StackLayout Grid.Row="2" Padding="5,0,0,0">
