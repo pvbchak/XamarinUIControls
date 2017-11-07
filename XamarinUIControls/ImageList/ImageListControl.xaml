@@ -9,14 +9,9 @@
         <RowDefinition Height="20" />
         <RowDefinition Height="10" />
     </Grid.RowDefinitions>
-    <Grid.GestureRecognizers>
-        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="TapGesture_Tapped" />
-        <PanGestureRecognizer PanUpdated="PanGesture_PanUpdated" />
-    </Grid.GestureRecognizers>
     <Image x:Name="ImageControl" Grid.Row="0" Grid.RowSpan="3" HorizontalOptions="Fill" Aspect="AspectFit">
         <Image.GestureRecognizers>
-            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="TapGesture_Tapped" />
-            <PanGestureRecognizer PanUpdated="PanGesture_PanUpdated" />
+            <PanGestureRecognizer PanUpdated="PanGesture_PanUpdated"  TouchPoints=""/>
         </Image.GestureRecognizers>
     </Image>
     <BoxView x:Name="TitleBox" Grid.Row="1" Grid.RowSpan="2" BackgroundColor="Black" 

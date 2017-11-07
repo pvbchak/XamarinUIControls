@@ -27,16 +27,11 @@ namespace XamarinUIControls
         }
 
         private int currentImageIndex { get; set; }
-        private double startX { get; set; }
-
+        private double panX { get; set; }
+        
         public ImageListControl()
         {
             this.InitializeComponent();
-        }
-
-        private void TapGesture_Tapped(object sender, EventArgs e)
-        {
-            // Navigation.PushModalAsync(new ImagePage(this.Images[currentImageIndex])).RunSynchronously();
         }
 
         private void PanGesture_PanUpdated(object sender, PanUpdatedEventArgs e)
@@ -44,17 +39,17 @@ namespace XamarinUIControls
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
-                    this.startX = 0;
+                    this.panX = 0;
                     break;
                 case GestureStatus.Running:
-                    this.startX = e.TotalX;
+                    this.panX = e.TotalX;
                     break;
                 case GestureStatus.Completed:
-                    if (this.startX < 0)
+                    if (this.panX > 50)
                     {
                         ShowPrevious(this);
                     }
-                    else if (this.startX > 0)
+                    else if (this.panX < -50)
                     {
                         ShowNext(this);
                     }
